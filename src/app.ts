@@ -1,8 +1,8 @@
 import "reflect-metadata";
-import { createExpressServer } from "routing-controllers";
+import {createExpressServer} from "routing-controllers";
+import {Application} from "express";
 
-createExpressServer({
+const app: Application = createExpressServer({
     controllers: [__dirname + "/controllers/*"]
-}).listen(3000,()=>{
-    console.log("Server started on port 3000");
 });
+export {app};

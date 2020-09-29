@@ -46,7 +46,7 @@ Create a nodemon.json
   "ignore": [
     "src/**/*.spec.ts"
   ],
-  "exec": "ts-node  --transpile-only ./src/app.ts"
+  "exec": "ts-node  --transpile-only ./src/index.ts"
 }
 ```
 Create the start and build scripts on package.json with nodemon
@@ -54,7 +54,7 @@ Create the start and build scripts on package.json with nodemon
 "start": "nodemon",
 "build": "tsc -p ."
 ```
-Create the app.ts at /src, and check if it is running
+Create the index.ts at /src, and check if it is running
 ```
 npm start
 ```
@@ -81,6 +81,7 @@ Run the suite
 npm test
 ```
 
+
 ### Configure express and routing-controllers
 Install express and dependencies
 ```
@@ -99,16 +100,26 @@ Install reflect-metadata
 ```
 npm install reflect-metadata
 ```
-Update app.ts
+Create app.ts
 ```
 import "reflect-metadata";
-import { createExpressServer } from "routing-controllers";
+import {createExpressServer} from "routing-controllers";
+import {Application} from "express";
 
-createExpressServer({
-    controllers: [__dirname + "/controllers/*.js"]
-}).listen(3000);
+const app: Application = createExpressServer({
+    controllers: [__dirname + "/controllers/*"]
+});
+
+export {app};
 ```
-Create a folder /src/controllers/ and create your controllers
+Install supertest
+```
+npm install --save-dev supertest @types/supertest
+```
+Create a folder /src/controllers/ and create your controllers and tests
+
+
+
 
 ## Configure Build with Docker and PM2
 
