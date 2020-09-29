@@ -1,0 +1,28 @@
+{
+  "name": "node-api-graphql-decorators",
+  "version": "1.0.0",
+  "description": "## Steps to create from scratch ``` npm init",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest --coverage",
+    "start": "nodemon"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/edisonfillus/node-api-graphql-decorators.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/edisonfillus/node-api-graphql-decorators/issues"
+  },
+  "homepage": "https://github.com/edisonfillus/node-api-graphql-decorators#readme",
+  "devDependencies": {
+    "@types/jest": "^26.0.14",
+    "jest": "^26.4.2",
+    "ts-jest": "^26.4.1",
+    "nodemon": "^2.0.4",
+    "ts-node": "^9.0.0",
+    "typescript": "^4.0.3"
+  }
+}
