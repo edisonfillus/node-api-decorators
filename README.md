@@ -119,6 +119,20 @@ npm install --save-dev supertest @types/supertest
 Create a folder /src/controllers/ and create your controllers and tests
 
 
+### Configure TypeDi for Dependency Injection
+Install TypeDI
+```
+npm install TypeDI
+```
+Install Node Types
+```
+npm install --save-dev @types/node 
+```
+Initialize the container before express
+```
+useContainer(Container);
+```
+Create your @Service 
 
 
 ## Configure Build with Docker and PM2

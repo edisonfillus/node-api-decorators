@@ -1,11 +1,15 @@
 import {Param, Body, Get, Post, Put, Delete, Controller} from "routing-controllers";
+import {UserService} from "../services/UserService";
 
 @Controller()
 export class UserController {
 
+    constructor(private userService: UserService) {
+    }
+
     @Get("/users")
     getAll() {
-        return "This action returns all users";
+        return this.userService.getAll();
     }
 
     @Get("/users/:id")
