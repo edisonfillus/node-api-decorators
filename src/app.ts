@@ -6,6 +6,10 @@ import {Container} from "typedi";
 useContainer(Container); // Use Dependency Injection on Controllers
 
 const app: Application = createExpressServer({
+    validation: {
+        whitelist: true,
+        forbidNonWhitelisted: true,
+    },
     controllers: [__dirname + "/controllers/*"]
 });
 export {app};

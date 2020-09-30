@@ -1,33 +1,36 @@
-import {Param, Body, Get, Post, Put, Delete, Controller} from "routing-controllers";
+import {Param, Body, Get, Post, Put, Delete, OnUndefined, JsonController} from "routing-controllers";
 import {UserService} from "../services/UserService";
+import {UserCreateRequest} from "../models/dtos/UserCreateRequest";
+import {UserListResponse} from "../models/dtos/UserListResponse";
 
-@Controller()
+@JsonController("/api/users")
 export class UserController {
 
     constructor(private userService: UserService) {
     }
 
-    @Get("/users")
-    getAll() {
+    @Get("/")
+    getAll(): UserListResponse[] {
         return this.userService.getAll();
     }
 
-    @Get("/users/:id")
+    @Get("/:id")
+    @OnUndefined(404)
     getOne(@Param("id") id: number) {
-        return "This action returns user #" + id;
+        return this.userService.findById(id);
     }
 
-    @Post("/users")
-    post(@Body() user: any) {
+    @Post("/")
+    createUser(@Body() user: UserCreateRequest) {
         return "Saving user...";
     }
 
-    @Put("/users/:id")
+    @Put("/:id")
     put(@Param("id") id: number, @Body() user: any) {
         return "Updating a user...";
     }
 
-    @Delete("/users/:id")
+    @Delete("/:id")
     remove(@Param("id") id: number) {
         return "Removing user...";
     }
