@@ -134,7 +134,32 @@ useContainer(Container);
 ```
 Create your @Service 
 
+### Include environment properties management
+```
+npm install dotenv
+```
+Create a config loader
 
+
+### Include authentication
+Install bcrypt
+```
+npm install bcrypt
+npm install --save-dev @types/bcrypt
+```
+Install Json Web Token
+```
+npm install jsonwebtoken
+npm install --save-dev @types/jsonwebtoken
+```
+Create AuthService / TokenService and create a authorizationChecker function on app.ts to request token validation logic and user/roles check
+
+Enjoy the @Authorized annotation
+```
+@Authorized("ADMIN") 
+@Get("/restricted")
+restrictedArea() {}
+```
 ## Configure Build with Docker and PM2
 
 Create a Dockerfile

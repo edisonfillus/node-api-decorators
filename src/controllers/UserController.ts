@@ -1,7 +1,8 @@
-import {Param, Body, Get, Post, Put, Delete, OnUndefined, JsonController} from "routing-controllers";
+import {Param, Body, Get, Post, Put, Delete, JsonController, Authorized} from "routing-controllers";
 import {UserService} from "../services/UserService";
 import {UserCreateRequest} from "../models/dtos/UserCreateRequest";
 import {UserListResponse} from "../models/dtos/UserListResponse";
+import {UserCreateResponse} from "../models/dtos/UserCreateResponse";
 
 @JsonController("/api/users")
 export class UserController {
@@ -15,14 +16,14 @@ export class UserController {
     }
 
     @Get("/:id")
-    @OnUndefined(404)
+    @Authorized()
     getOne(@Param("id") id: number) {
         return this.userService.findById(id);
     }
 
     @Post("/")
-    createUser(@Body() user: UserCreateRequest) {
-        return "Saving user...";
+    createUser(@Body() user: UserCreateRequest): Promise<UserCreateResponse> {
+        return this.userService.create(user);
     }
 
     @Put("/:id")

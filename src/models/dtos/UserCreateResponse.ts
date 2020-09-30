@@ -1,6 +1,6 @@
 import {Expose} from "class-transformer";
 
-export class UserListResponse{
+export class UserCreateResponse {
 
     @Expose() id: number;
     @Expose() name: string;
