@@ -19,4 +19,7 @@ export const config = {
     logs: {
         level: process.env.LOG_LEVEL || 'silly',
     },
+    database:{
+        url: process.env.DATABASE_URL
+    }
 };

@@ -11,7 +11,7 @@ import {UserNotFoundError} from "../errors/UserNotFoundError";
 const tokenService = Container.get(TokenService);
 
 describe("UserController.findById", () => {
-    beforeEach(()=>{
+    beforeEach(() => {
         Container.reset();
     })
     it("Should return 401 if not authenticated", async () => {
@@ -22,7 +22,9 @@ describe("UserController.findById", () => {
     })
     it("Should return 404 if not existent", async () => {
         const token = tokenService.createToken({id: 1}).token;
-        const findByIdMock = jest.fn(() => {throw new UserNotFoundError()});
+        const findByIdMock = jest.fn(() => {
+            throw new UserNotFoundError()
+        });
         Container.set(UserService, {
             findById: findByIdMock
         });
@@ -34,9 +36,11 @@ describe("UserController.findById", () => {
     })
 
 
-    it("Should return 500 on Error", async ()=>{
+    it("Should return 500 on Error", async () => {
         const token = tokenService.createToken({id: 1}).token;
-        const findByIdMock = jest.fn(() => {throw new Error("System Failure")});
+        const findByIdMock = jest.fn(() => {
+            throw new Error("System Failure")
+        });
         Container.set(UserService, {
             findById: findByIdMock
         });
@@ -50,7 +54,7 @@ describe("UserController.findById", () => {
         expect(response.text).toContain("System Failure");
     })
 
-    it("Should return user if all OK", async ()=>{
+    it("Should return user if all OK", async () => {
         const token = tokenService.createToken({id: 1}).token;
         const expected: UserFindResponse = {
             id: 1,
@@ -73,13 +77,18 @@ describe("UserController.findById", () => {
 })
 
 describe("UserController.findAll", () => {
-    beforeEach(()=>{
+    beforeEach(() => {
         Container.reset();
     })
     it("Should list all users", async () => {
         const expected = [{
             id: 1,
-            name: "Edison"
+            name: "Test User",
+            email: "test@mail.com"
+        }, {
+            id: 2,
+            name: "Test User 2",
+            email: "test2@mail.com"
         }]
         const findAllMock = jest.fn(() => expected)
         Container.set(UserService, {
@@ -96,7 +105,7 @@ describe("UserController.findAll", () => {
 })
 
 describe("Create User", () => {
-    beforeEach(()=>{
+    beforeEach(() => {
         Container.reset();
     })
     it("Should return 400 on unknown properties", async () => {

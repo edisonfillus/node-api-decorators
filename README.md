@@ -171,15 +171,17 @@ Install extension for TypeDI
 npm install typeorm-typedi-extensions
 ```
 
-Install Database Drivers
+Install Database Driver that you will use
 ```
 npm install mysql
 npm install pg
 npm install oracledb
 npm install mongodb 
 ```
-
-
+Install sqlite3 for Unit Testing
+```
+npm install --save-dev sqlite3 
+```
 
 ## Configure Build with Docker and PM2
 
