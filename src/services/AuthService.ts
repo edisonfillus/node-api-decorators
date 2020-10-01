@@ -4,15 +4,20 @@ import bcrypt from "bcrypt";
 import {LoginRequest} from "../models/dtos/LoginRequest";
 import {UserService} from "./UserService";
 import {InvalidCredentialsError} from "../errors/InvalidCredentialsError";
+import {InjectRepository} from "typeorm-typedi-extensions";
+import {UserRepository} from "../repositories/UserRepository";
 
 @Service()
 export class AuthService{
 
-    constructor(private tokenService: TokenService) {
+    constructor(
+        @InjectRepository()
+        private readonly userRepository: UserRepository,
+        private tokenService: TokenService) {
     }
 
     async login(request: LoginRequest): Promise<TokenData>{
-        const user = UserService.repository.find(u=>u.email === request.email);
+        const user = await this.userRepository.findByEmail(request.email);
         if(!user) throw new InvalidCredentialsError();
         const doPasswordsMatch = await bcrypt.compare(request.password, user.password);
         if(!doPasswordsMatch) throw new InvalidCredentialsError();

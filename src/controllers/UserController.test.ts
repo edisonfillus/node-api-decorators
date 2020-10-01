@@ -44,7 +44,7 @@ describe("UserController.findById", () => {
         const response = await request(app)
             .get("/api/users/1")
             .set("Authorization", "Bearer " + token);
-        console.log(response.body)
+
         expect(findByIdMock).toBeCalled();
         expect(response.status).toBe(500);
         expect(response.text).toContain("System Failure");
@@ -72,7 +72,7 @@ describe("UserController.findById", () => {
     })
 })
 
-describe("UserController.getAll", () => {
+describe("UserController.findAll", () => {
     beforeEach(()=>{
         Container.reset();
     })
@@ -81,16 +81,16 @@ describe("UserController.getAll", () => {
             id: 1,
             name: "Edison"
         }]
-        const getAllMock = jest.fn(() => expected)
+        const findAllMock = jest.fn(() => expected)
         Container.set(UserService, {
-            getAll: getAllMock
+            findAll: findAllMock
         });
 
         const response = await request(app)
             .get("/api/users")
             .set('Accept', 'application/json')
             .expect(200);
-        expect(getAllMock).toHaveBeenCalled();
+        expect(findAllMock).toHaveBeenCalled();
         expect(response.body).toStrictEqual(expected);
     })
 })
@@ -129,18 +129,20 @@ describe("Create User", () => {
             email: "edison.fillus@gmail.com",
             password: "123456"
         };
-
         const expected: UserCreateResponse = {
             id: 1,
             name: "Edison",
             email: "edison.fillus@gmail.com"
         }
+        const createMock = jest.fn(() => expected)
+        Container.set(UserService, {
+            create: createMock
+        });
 
         const response = await request(app)
             .post("/api/users")
             .send(body);
 
-        console.log(response.text);
         expect(response.status).toBe(200);
         expect(response.body).toStrictEqual(expected)
     })

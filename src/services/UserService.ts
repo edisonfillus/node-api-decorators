@@ -3,36 +3,42 @@ import {plainToClass} from "class-transformer";
 import {UserListResponse} from "../models/dtos/UserListResponse";
 import {UserCreateRequest} from "../models/dtos/UserCreateRequest";
 import bcrypt from "bcrypt";
-import {User} from "../models/entities/User";
 import {UserCreateResponse} from "../models/dtos/UserCreateResponse";
 import {UserFindResponse} from "../models/dtos/UserFindResponse";
 import {UserNotFoundError} from "../errors/UserNotFoundError";
 import {UserAlreadyExistsError} from "../errors/UserAlreadyExistsError";
+import {InjectRepository} from "typeorm-typedi-extensions";
+import {UserRepository} from "../repositories/UserRepository";
 
 @Service()
 export class UserService {
 
-    static repository: User[] = [];
-    static sequence = 1;
+    constructor(
+        @InjectRepository()
+        private readonly userRepository: UserRepository) {
+    }
 
-    getAll(): UserListResponse[] {
-        const result = UserService.repository;
+    async findAll(): Promise<UserListResponse[]> {
+        const result = await this.userRepository.find();
         return plainToClass(UserListResponse, result, {excludeExtraneousValues: true})
     }
 
-    findById(id: number): UserFindResponse {
-        const user = UserService.repository.find(user => user.id == id);
+    async findById(id: number): Promise<UserFindResponse> {
+        const user = await this.userRepository.findOne({id})
         if (!user) throw new UserNotFoundError();
         return plainToClass(UserFindResponse, user, {excludeExtraneousValues: true});
     }
 
     async create(request: UserCreateRequest): Promise<UserCreateResponse> {
-        if (UserService.repository.some(u => u.email === request.email)) {
+        if (await this.userRepository.findByEmail(request.email)) {
             throw new UserAlreadyExistsError();
         }
         const hashedPassword = await bcrypt.hash(request.password, 10);
-        const user = new User(UserService.sequence++, request.name, request.email, hashedPassword);
-        UserService.repository.push(user);
+        const user = this.userRepository.create();
+        user.name = request.name;
+        user.email = request.email;
+        user.password = hashedPassword;
+        await this.userRepository.save(user);
         return plainToClass(UserCreateResponse, user, {excludeExtraneousValues: true});
     }
 

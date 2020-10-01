@@ -160,6 +160,27 @@ Enjoy the @Authorized annotation
 @Get("/restricted")
 restrictedArea() {}
 ```
+
+### Include TypeORM
+Install TypeORM
+```
+npm install typeorm
+```
+Install extension for TypeDI
+```
+npm install typeorm-typedi-extensions
+```
+
+Install Database Drivers
+```
+npm install mysql
+npm install pg
+npm install oracledb
+npm install mongodb 
+```
+
+
+
 ## Configure Build with Docker and PM2
 
 Create a Dockerfile

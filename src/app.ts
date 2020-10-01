@@ -24,6 +24,7 @@ const app: Application = createExpressServer({
         whitelist: true,
         forbidNonWhitelisted: true,
     },
-    controllers: [__dirname + "/controllers/*Controller.[tj]s"]
+    controllers: [__dirname + "/controllers/**/*Controller.{ts,js}"]
 });
+
 export {app};

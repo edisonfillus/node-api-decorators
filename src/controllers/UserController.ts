@@ -3,6 +3,7 @@ import {UserService} from "../services/UserService";
 import {UserCreateRequest} from "../models/dtos/UserCreateRequest";
 import {UserListResponse} from "../models/dtos/UserListResponse";
 import {UserCreateResponse} from "../models/dtos/UserCreateResponse";
+import {UserFindResponse} from "../models/dtos/UserFindResponse";
 
 @JsonController("/api/users")
 export class UserController {
@@ -11,13 +12,13 @@ export class UserController {
     }
 
     @Get("/")
-    getAll(): UserListResponse[] {
-        return this.userService.getAll();
+    getAll(): Promise<UserListResponse[]> {
+        return this.userService.findAll();
     }
 
     @Get("/:id")
     @Authorized()
-    getOne(@Param("id") id: number) {
+    getOne(@Param("id") id: number): Promise<UserFindResponse> {
         return this.userService.findById(id);
     }
 
